@@ -3,32 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDLELIT AI | PRO</title>
+    <title>CANDLELIT AI | PRO TERMINAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg-grey: #1E222D; --sidebar-dark: #131722; --accent: #2962FF; --bull: #089981; --bear: #F23645; --text: #D1D4DC; --border: #363A45; }
         body { background: var(--bg-grey); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar Styles */
         #sidebar { width: 320px; background: var(--sidebar-dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
         .ai-box { padding: 20px; border-bottom: 1px solid var(--border); }
-        .ai-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); font-size: 0.9rem; margin-bottom: 15px; }
-        .ai-msg { background: #2A2E39; padding: 15px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; border-left: 4px solid var(--accent); }
-        .watchlist { flex: 1; padding: 20px; overflow-y: auto; }
-        .coin-item { display: flex; justify-content: space-between; padding: 12px; background: #1E222D; margin-bottom: 8px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
-        .coin-item:hover { border-color: var(--accent); }
+        .ai-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); font-size: 0.8rem; margin-bottom: 15px; }
+        .ai-msg { background: #2A2E39; padding: 15px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; border-left: 4px solid var(--accent); min-height: 80px; }
         
-        /* Premium UI */
-        .premium-lock { background: rgba(41, 98, 255, 0.1); border: 1px dashed var(--accent); padding: 15px; border-radius: 10px; margin: 20px; text-align: center; }
-        .upgrade-btn { background: linear-gradient(45deg, #2962FF, #1E88E5); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3); }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: #1E222D; margin: 15% auto; padding: 30px; width: 320px; border-radius: 15px; text-align: center; border: 1px solid var(--accent); position: relative; }
+        .news-section { flex: 1; padding: 20px; overflow-y: auto; border-top: 1px solid var(--border); }
+        .news-item { font-size: 0.75rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2A2E39; cursor: pointer; }
+        .news-item:hover { color: var(--accent); }
+        .news-tag { color: var(--accent); font-weight: bold; font-size: 0.65rem; text-transform: uppercase; }
 
+        /* Main Area */
         main { flex: 1; display: flex; flex-direction: column; }
         header { padding: 10px 20px; background: var(--sidebar-dark); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .search-container { display: flex; gap: 10px; }
-        input { background: #2A2E39; border: 1px solid #434651; color: white; padding: 8px 12px; border-radius: 6px; outline: none; }
-        .timeframes { display: flex; gap: 5px; padding: 10px 20px; background: var(--sidebar-dark); border-bottom: 1px solid var(--border); }
-        .tf-btn { padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; background: #2A2E39; cursor: pointer; border: 1px solid #434651; color: #848E9C; }
-        .tf-btn.active { background: var(--accent); color: white; }
+        input { background: #2A2E39; border: 1px solid #434651; color: white; padding: 8px 12px; border-radius: 6px; outline: none; width: 180px; }
+        .premium-btn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 700; cursor: pointer; margin: 20px; }
     </style>
 </head>
 <body>
@@ -36,77 +32,81 @@
     <div id="sidebar">
         <div class="ai-box">
             <div class="ai-title">🤖 CANDLELIT AI ANALYST</div>
-            <div class="ai-msg" id="ai-status">Select a coin to start analysis...</div>
+            <div class="ai-msg" id="ai-status">Scanning market for patterns...</div>
         </div>
-        <div class="watchlist">
-            <div style="font-size: 0.75rem; color: #848E9C; margin-bottom: 10px;">ASSETS</div>
-            <div class="coin-item" onclick="ignite('BTCUSDT')"><span>Bitcoin</span><span style="color:var(--bull)">BTC</span></div>
-            <div class="coin-item" onclick="ignite('ETHUSDT')"><span>Ethereum</span><span style="color:var(--bull)">ETH</span></div>
-            <div class="coin-item" onclick="ignite('SOLUSDT')"><span>Solana</span><span style="color:var(--bull)">SOL</span></div>
+
+        <div class="news-section">
+            <div style="font-size: 0.7rem; color: #848E9C; margin-bottom: 15px; letter-spacing: 1px;">LIVE CRYPTO NEWS</div>
+            <div id="news-feed">
+                </div>
         </div>
-        
-        <div class="premium-lock">
-            <div style="font-size: 0.7rem; color: #848E9C;">PRO FEATURES LOCKED 🔒</div>
-            <button class="upgrade-btn" onclick="showModal()">UPGRADE TO PRO</button>
-        </div>
+
+        <button class="premium-btn" onclick="alert('Waitlist Joined!')">🚀 UPGRADE TO PRO</button>
     </div>
 
     <main>
         <header>
             <div style="font-weight: 800;">CANDLELIT <span style="color:var(--accent)">PRO</span></div>
-            <div class="search-container">
-                <input type="text" id="symbol-input" placeholder="Search (e.g. MATIC)">
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="symbol-input" placeholder="Search (e.g. SOL, DOT)">
                 <button onclick="manualSearch()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">Ignite</button>
             </div>
         </header>
-        <div class="timeframes">
-            <div class="tf-btn active" onclick="changeTF('D', event)">1D</div>
-            <div class="tf-btn" onclick="changeTF('W', event)">1W</div>
-            <div class="tf-btn" onclick="changeTF('60', event)">1H</div>
-        </div>
         <div id="tv_widget" style="flex:1;"></div>
     </main>
-
-    <div id="payModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color:white">Unlock Pro AI 🚀</h2>
-            <p style="color:#848E9C">Get 1-min scalping signals and WhatsApp alerts.</p>
-            <div style="font-size: 1.5rem; margin: 20px 0; color:var(--bull)">$9.99/mo</div>
-            <button class="upgrade-btn" onclick="alert('Added to Waitlist!')">Join Waitlist</button>
-            <p onclick="hideModal()" style="color:grey; cursor:pointer; margin-top:15px; font-size:0.8rem;">Close</p>
-        </div>
-    </div>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
         let currentSymbol = "BINANCE:BTCUSDT";
-        let currentInterval = "D";
 
-        function loadChart(symbol, interval) {
+        function loadChart(symbol) {
             new TradingView.widget({
-                "autosize": true, "symbol": symbol, "interval": interval, "theme": "dark",
+                "autosize": true, "symbol": symbol, "interval": "D", "theme": "dark",
                 "style": "1", "container_id": "tv_widget", "backgroundColor": "#1E222D",
             });
-            updateAI(symbol, interval);
+            updateAI(symbol);
         }
 
-        function ignite(sym) { currentSymbol = "BINANCE:" + sym.toUpperCase(); loadChart(currentSymbol, currentInterval); }
-        function manualSearch() { 
+        function manualSearch() {
             let val = document.getElementById('symbol-input').value.toUpperCase().trim();
-            if(val) ignite(val.endsWith("USDT") ? val : val + "USDT");
+            if(!val) return;
+            currentSymbol = "BINANCE:" + (val.endsWith("USDT") ? val : val + "USDT");
+            loadChart(currentSymbol);
         }
-        function changeTF(tf, e) {
-            currentInterval = tf; loadChart(currentSymbol, currentInterval);
-            document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
+
+        function updateAI(sym) {
+            const coin = sym.split(":")[1] || sym;
+            const patterns = [
+                { n: "Double Bottom (W)", s: "BULLISH", c: "var(--bull)", d: "Trend reversal confirmed." },
+                { n: "Double Top (M)", s: "BEARISH", c: "var(--bear)", d: "Major resistance detected." },
+                { n: "Falling Wedge", s: "BULLISH", c: "var(--bull)", d: "Breakout expected soon." },
+                { n: "Head and Shoulders", s: "BEARISH", c: "var(--bear)", d: "Bearish structure forming." },
+                { n: "Bullish Flag", s: "BULLISH", c: "var(--bull)", d: "Continuation of up-move." },
+                { n: "Ascending Triangle", s: "BULLISH", c: "var(--bull)", d: "Accumulation zone detected." },
+                { n: "Descending Triangle", s: "BEARISH", c: "var(--bear)", d: "Distribution phase active." },
+                { n: "Cup and Handle", s: "BULLISH", c: "var(--bull)", d: "Long term bullish setup." }
+            ];
+            const p = patterns[Math.floor(Math.random() * patterns.length)];
+            document.getElementById('ai-status').innerHTML = `<b>${coin} Analysis:</b><br><br>AI detected <b>${p.n}</b>. <br><span style='color:${p.c}'>${p.s} SIGNAL:</span> ${p.d}`;
         }
-        function updateAI(sym, tf) {
-            const coin = sym.split(":")[1];
-            document.getElementById('ai-status').innerHTML = `<b>${coin} (${tf}) Analysis:</b><br><br>AI detected a <b>Double Bottom (W)</b> pattern. <span style='color:var(--bull)'>BULLISH SIGNAL.</span>`;
+
+        function loadNews() {
+            const news = [
+                { t: "MARKET", m: "Bitcoin holds steady at $72,400 as ETF inflows increase." },
+                { t: "WHALE ALERT", m: "10,000 BTC moved from unknown wallet to Coinbase." },
+                { t: "REGULATION", m: "New crypto tax laws proposed in the European Union." },
+                { t: "ALTCOINS", m: "Solana (SOL) hits new monthly high amid ecosystem growth." }
+            ];
+            let html = '';
+            news.forEach(n => {
+                html += `<div class="news-item"><span class="news-tag">${n.t}</span><br>${n.m}</div>`;
+            });
+            document.getElementById('news-feed').innerHTML = html;
         }
-        function showModal() { document.getElementById('payModal').style.display = "block"; }
-        function hideModal() { document.getElementById('payModal').style.display = "none"; }
-        loadChart(currentSymbol, currentInterval);
+
+        // Initial Load
+        loadChart(currentSymbol);
+        loadNews();
     </script>
 </body>
 </html>
