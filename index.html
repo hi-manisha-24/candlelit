@@ -3,70 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDLELIT AI | Professional Analyst</title>
+    <title>CANDLELIT AI | PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg-grey: #1E222D; 
-            --sidebar-dark: #131722;
-            --accent: #2962FF; 
-            --bull: #089981; 
-            --bear: #F23645;
-            --text: #D1D4DC;
-            --border: #363A45;
-        }
-
-        body { 
-            background: var(--bg-grey); color: var(--text); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            margin: 0; display: flex; height: 100vh; overflow: hidden;
-        }
-
-        /* Left Sidebar: AI & Watchlist */
-        #sidebar {
-            width: 320px; background: var(--sidebar-dark);
-            border-right: 1px solid var(--border); display: flex; flex-direction: column;
-        }
-
+        :root { --bg-grey: #1E222D; --sidebar-dark: #131722; --accent: #2962FF; --bull: #089981; --bear: #F23645; --text: #D1D4DC; --border: #363A45; }
+        body { background: var(--bg-grey); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 320px; background: var(--sidebar-dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
         .ai-box { padding: 20px; border-bottom: 1px solid var(--border); }
         .ai-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); font-size: 0.9rem; margin-bottom: 15px; }
         .ai-msg { background: #2A2E39; padding: 15px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; border-left: 4px solid var(--accent); }
-
         .watchlist { flex: 1; padding: 20px; overflow-y: auto; }
-        .watchlist-title { font-size: 0.75rem; color: #848E9C; margin-bottom: 15px; letter-spacing: 1px; }
-        .coin-item { 
-            display: flex; justify-content: space-between; padding: 12px; 
-            background: #1E222D; margin-bottom: 8px; border-radius: 8px; 
-            cursor: pointer; transition: 0.2s; border: 1px solid transparent;
-        }
-        .coin-item:hover { border-color: var(--accent); background: #2A2E39; }
-
-        /* Main Area */
-        main { flex: 1; display: flex; flex-direction: column; }
+        .coin-item { display: flex; justify-content: space-between; padding: 12px; background: #1E222D; margin-bottom: 8px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
+        .coin-item:hover { border-color: var(--accent); }
         
-        header { 
-            padding: 10px 20px; background: var(--sidebar-dark); 
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
+        /* Premium UI */
+        .premium-lock { background: rgba(41, 98, 255, 0.1); border: 1px dashed var(--accent); padding: 15px; border-radius: 10px; margin: 20px; text-align: center; }
+        .upgrade-btn { background: linear-gradient(45deg, #2962FF, #1E88E5); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .modal-content { background: #1E222D; margin: 15% auto; padding: 30px; width: 320px; border-radius: 15px; text-align: center; border: 1px solid var(--accent); position: relative; }
 
+        main { flex: 1; display: flex; flex-direction: column; }
+        header { padding: 10px 20px; background: var(--sidebar-dark); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
         .search-container { display: flex; gap: 10px; }
-        input { 
-            background: #2A2E39; border: 1px solid #434651; color: white; 
-            padding: 8px 12px; border-radius: 6px; outline: none; width: 200px;
-        }
-
-        .timeframes { 
-            display: flex; gap: 5px; padding: 10px 20px; 
-            background: var(--sidebar-dark); border-bottom: 1px solid var(--border);
-        }
-        .tf-btn { 
-            padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; 
-            background: #2A2E39; cursor: pointer; border: 1px solid #434651; color: #848E9C;
-        }
-        .tf-btn:hover, .tf-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-        #chart-box { flex: 1; }
+        input { background: #2A2E39; border: 1px solid #434651; color: white; padding: 8px 12px; border-radius: 6px; outline: none; }
+        .timeframes { display: flex; gap: 5px; padding: 10px 20px; background: var(--sidebar-dark); border-bottom: 1px solid var(--border); }
+        .tf-btn { padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; background: #2A2E39; cursor: pointer; border: 1px solid #434651; color: #848E9C; }
+        .tf-btn.active { background: var(--accent); color: white; }
     </style>
 </head>
 <body>
@@ -74,39 +36,46 @@
     <div id="sidebar">
         <div class="ai-box">
             <div class="ai-title">🤖 CANDLELIT AI ANALYST</div>
-            <div class="ai-msg" id="ai-status">Select a coin to start deep analysis...</div>
+            <div class="ai-msg" id="ai-status">Select a coin to start analysis...</div>
         </div>
         <div class="watchlist">
-            <div class="watchlist-title">POPULAR ASSETS</div>
+            <div style="font-size: 0.75rem; color: #848E9C; margin-bottom: 10px;">ASSETS</div>
             <div class="coin-item" onclick="ignite('BTCUSDT')"><span>Bitcoin</span><span style="color:var(--bull)">BTC</span></div>
             <div class="coin-item" onclick="ignite('ETHUSDT')"><span>Ethereum</span><span style="color:var(--bull)">ETH</span></div>
             <div class="coin-item" onclick="ignite('SOLUSDT')"><span>Solana</span><span style="color:var(--bull)">SOL</span></div>
-            <div class="coin-item" onclick="ignite('DOGEUSDT')"><span>Dogecoin</span><span style="color:var(--bear)">DOGE</span></div>
-            <div class="coin-item" onclick="ignite('BNBUSDT')"><span>Binance Coin</span><span style="color:var(--bull)">BNB</span></div>
-            <div class="coin-item" onclick="ignite('XRPUSDT')"><span>Ripple</span><span style="color:var(--bear)">XRP</span></div>
+        </div>
+        
+        <div class="premium-lock">
+            <div style="font-size: 0.7rem; color: #848E9C;">PRO FEATURES LOCKED 🔒</div>
+            <button class="upgrade-btn" onclick="showModal()">UPGRADE TO PRO</button>
         </div>
     </div>
 
     <main>
         <header>
-            <div style="font-weight: 800; letter-spacing: 1px;">CANDLELIT <span style="color:var(--accent)">PRO</span></div>
+            <div style="font-weight: 800;">CANDLELIT <span style="color:var(--accent)">PRO</span></div>
             <div class="search-container">
                 <input type="text" id="symbol-input" placeholder="Search (e.g. MATIC)">
-                <button onclick="manualSearch()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:600;">Ignite</button>
+                <button onclick="manualSearch()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">Ignite</button>
             </div>
         </header>
-
         <div class="timeframes">
-            <div class="tf-btn active" onclick="changeTF('D')">1D</div>
-            <div class="tf-btn" onclick="changeTF('W')">1W</div>
-            <div class="tf-btn" onclick="changeTF('M')">1M</div>
-            <div class="tf-btn" onclick="changeTF('60')">1H</div>
+            <div class="tf-btn active" onclick="changeTF('D', event)">1D</div>
+            <div class="tf-btn" onclick="changeTF('W', event)">1W</div>
+            <div class="tf-btn" onclick="changeTF('60', event)">1H</div>
         </div>
-
-        <div id="chart-box">
-            <div id="tv_widget" style="height: 100%; width: 100%;"></div>
-        </div>
+        <div id="tv_widget" style="flex:1;"></div>
     </main>
+
+    <div id="payModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color:white">Unlock Pro AI 🚀</h2>
+            <p style="color:#848E9C">Get 1-min scalping signals and WhatsApp alerts.</p>
+            <div style="font-size: 1.5rem; margin: 20px 0; color:var(--bull)">$9.99/mo</div>
+            <button class="upgrade-btn" onclick="alert('Added to Waitlist!')">Join Waitlist</button>
+            <p onclick="hideModal()" style="color:grey; cursor:pointer; margin-top:15px; font-size:0.8rem;">Close</p>
+        </div>
+    </div>
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
@@ -115,60 +84,28 @@
 
         function loadChart(symbol, interval) {
             new TradingView.widget({
-                "autosize": true,
-                "symbol": symbol,
-                "interval": interval,
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "backgroundColor": "#1E222D",
-                "gridColor": "rgba(42, 46, 57, 0.3)",
-                "container_id": "tv_widget",
-                "overrides": {
-                    "mainSeriesProperties.candleStyle.upColor": "#089981",
-                    "mainSeriesProperties.candleStyle.downColor": "#F23645",
-                    "mainSeriesProperties.candleStyle.borderUpColor": "#089981",
-                    "mainSeriesProperties.candleStyle.borderDownColor": "#F23645",
-                    "mainSeriesProperties.candleStyle.wickUpColor": "#089981",
-                    "mainSeriesProperties.candleStyle.wickDownColor": "#F23645"
-                }
+                "autosize": true, "symbol": symbol, "interval": interval, "theme": "dark",
+                "style": "1", "container_id": "tv_widget", "backgroundColor": "#1E222D",
             });
             updateAI(symbol, interval);
         }
 
-        function ignite(sym) {
-            currentSymbol = "BINANCE:" + sym;
-            loadChart(currentSymbol, currentInterval);
-        }
-
-        function manualSearch() {
+        function ignite(sym) { currentSymbol = "BINANCE:" + sym.toUpperCase(); loadChart(currentSymbol, currentInterval); }
+        function manualSearch() { 
             let val = document.getElementById('symbol-input').value.toUpperCase().trim();
-            if(!val) return;
-            ignite(val.endsWith("USDT") ? val : val + "USDT");
+            if(val) ignite(val.endsWith("USDT") ? val : val + "USDT");
         }
-
-        function changeTF(tf) {
-            currentInterval = tf;
-            loadChart(currentSymbol, currentInterval);
-            // UI Button Active State
-            document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        function changeTF(tf, e) {
+            currentInterval = tf; loadChart(currentSymbol, currentInterval);
+            document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
         }
-
         function updateAI(sym, tf) {
             const coin = sym.split(":")[1];
-            const patterns = ["Double Bottom (W)", "Double Top (M)", "Falling Wedge", "Bullish Flag"];
-            const p = patterns[Math.floor(Math.random()*patterns.length)];
-            const isBull = p.includes("(W)") || p.includes("Bull") || p.includes("Falling");
-
-            let msg = `<b>${coin} (${tf}) Analysis:</b><br><br>`;
-            msg += `Detected <b>${p}</b> pattern. <br>`;
-            msg += isBull ? `<span style='color:var(--bull)'>BULLISH SIGNAL:</span> Buyers are strong here.` : `<span style='color:var(--bear)'>BEARISH SIGNAL:</span> Selling pressure ahead.`;
-            
-            document.getElementById('ai-status').innerHTML = msg;
+            document.getElementById('ai-status').innerHTML = `<b>${coin} (${tf}) Analysis:</b><br><br>AI detected a <b>Double Bottom (W)</b> pattern. <span style='color:var(--bull)'>BULLISH SIGNAL.</span>`;
         }
-
+        function showModal() { document.getElementById('payModal').style.display = "block"; }
+        function hideModal() { document.getElementById('payModal').style.display = "none"; }
         loadChart(currentSymbol, currentInterval);
     </script>
 </body>
