@@ -3,129 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDLELIT APM | Strategy & Analysis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>CANDLELIT AI | Your Trading Sidekick</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bull: #00ff88; --bear: #ff4444; --amber: #FFB347; --bg: #050505; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
-        /* APM Header Branding */
-        header { 
-            background: #0a0a0a; border-bottom: 1px solid #222; 
-            padding: 10px 25px; display: flex; align-items: center; justify-content: space-between;
+        :root { 
+            --bg-grey: #1E222D; /* Professional TradingView Grey */
+            --card-dark: #131722;
+            --accent-blue: #2962FF; 
+            --bull-green: #089981; 
+            --bear-red: #F23645;
+            --text-white: #D1D4DC;
         }
-        .brand { font-family: 'Cormorant Garamond', serif; color: var(--amber); font-size: 1.5rem; letter-spacing: 2px; }
-        
-        .search-area { display: flex; gap: 10px; }
-        input { background: #111; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 5px; outline: none; }
-        button { background: var(--amber); border: none; padding: 8px 20px; font-weight: 600; cursor: pointer; border-radius: 5px; }
 
-        /* The Strategy Panel */
-        #verdict-panel {
-            background: #0f0f0f; border-top: 1px solid #222;
-            padding: 15px 25px; display: flex; justify-content: space-around; align-items: center;
+        body { 
+            background-color: var(--bg-grey); 
+            color: var(--text-white); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh;
+            overflow: hidden;
         }
-        .indicator { text-align: center; }
-        .label { font-size: 0.7rem; text-transform: uppercase; color: #888; letter-spacing: 1px; }
-        .value { font-size: 1.1rem; font-weight: 600; margin-top: 5px; }
-        .bullish { color: var(--bull); }
-        .bearish { color: var(--bear); }
 
-        #chart-box { flex-grow: 1; position: relative; }
+        /* Sidebar for AI Chat */
+        #ai-sidebar {
+            width: 320px;
+            background: var(--card-dark);
+            border-right: 1px solid #363A45;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+        }
+
+        .ai-header { 
+            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+            border-bottom: 1px solid #363A45; padding-bottom: 15px;
+        }
+
+        .bot-avatar { width: 40px; height: 40px; background: var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+        #chat-history { flex: 1; overflow-y: auto; font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; }
+        .msg { margin-bottom: 12px; padding: 10px; border-radius: 8px; background: #1E222D; }
+        .bot-msg { border-left: 3px solid var(--accent-blue); }
+
+        /* Main Trading Area */
+        main { flex: 1; display: flex; flex-direction: column; }
+
+        nav { 
+            padding: 12px 25px; background: var(--card-dark); 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #363A45;
+        }
+
+        .search-box { display: flex; gap: 10px; }
+        input { 
+            background: #2A2E39; border: 1px solid #434651; color: white; 
+            padding: 8px 15px; border-radius: 6px; outline: none; width: 250px;
+        }
+
+        button { 
+            background: var(--accent-blue); color: white; border: none; 
+            padding: 8px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
+
+        #chart-container { flex: 1; background: var(--bg-grey); }
+
+        /* Timeframe Tags */
+        .timeframes { display: flex; gap: 8px; padding: 10px 25px; background: #131722; font-size: 0.75rem; color: #848E9C; }
+        .tf-tag { padding: 4px 8px; border-radius: 4px; background: #2A2E39; cursor: pointer; }
+        .tf-tag:hover { color: white; background: var(--accent-blue); }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div class="brand">🕯️ CANDLELIT <span style="font-size: 0.7rem; opacity: 0.5;">PROTOTYPE v2.0</span></div>
-    <div class="search-area">
-        <input type="text" id="symbol-input" placeholder="BTCUSDT, ETHUSDT...">
-        <button onclick="updateChart()">IGNITE →</button>
-    </div>
-</header>
-
-<div id="chart-box">
-    <div id="tv_chart_container" style="height: 100%; width: 100%;"></div>
-</div>
-
-<div id="verdict-panel">
-    <div class="indicator">
-        <div class="label">Primary Pattern</div>
-        <div id="pattern-type" class="value">Analyzing Candles...</div>
-    </div>
-    <div class="indicator">
-        <div class="label">Long-Term Mood</div>
-        <div id="mood-type" class="value">Neutral</div>
-    </div>
-    <div class="indicator">
-        <div class="label">APM Recommendation</div>
-        <div id="rec-type" class="value">Waiting for Signal</div>
-    </div>
-</div>
-
-<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-<script>
-    let currentSymbol = "BINANCE:BTCUSDT";
-
-    function initChart(symbol) {
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": symbol,
-            "interval": "D",
-            "timezone": "Etc/UTC",
-            "theme": "dark",
-            "style": "1",
-            "locale": "en",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "withdateranges": true,
-            "hide_side_toolbar": false,
-            "allow_symbol_change": true,
-            "container_id": "tv_chart_container"
-        });
-        generateFakeVerdict(symbol);
-    }
-
-    function updateChart() {
-        let sym = document.getElementById('symbol-input').value.toUpperCase();
-        if(!sym.includes(":")) sym = "BINANCE:" + sym;
-        if(!sym.endsWith("T") && !sym.includes("USD")) sym += "USDT";
-        currentSymbol = sym;
-        initChart(sym);
-    }
-
-    // Logic to simulate pattern reading for the UI
-    function generateFakeVerdict(symbol) {
-        const patterns = ["Double Bottom (W)", "Double Top (M)", "Ascending Triangle", "Hammer Reversal", "Head & Shoulders"];
-        const moods = ["Bullish", "Bearish", "Consolidating"];
+    <div id="ai-sidebar">
+        <div class="ai-header">
+            <div class="bot-avatar">🤖</div>
+            <div>
+                <div style="font-weight: 700;">CANDLELIT AI</div>
+                <div style="font-size: 0.7rem; color: #089981;">● Online Assistant</div>
+            </div>
+        </div>
         
-        const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
-        const randomMood = moods[Math.floor(Math.random() * moods.length)];
+        <div id="chat-history">
+            <div class="msg bot-msg">Namaste! Main aapka AI assistant hoon. Kisi bhi coin ko search karein, main patterns read karne mein aapki help karunga.</div>
+        </div>
 
-        const pEl = document.getElementById('pattern-type');
-        const mEl = document.getElementById('mood-type');
-        const rEl = document.getElementById('rec-type');
+        <div style="font-size: 0.8rem; color: #848E9C; background: #1E222D; padding: 10px; border-radius: 8px;">
+            <b>Live Tips:</b> Look for 'W' pattern to buy (Bullish) or 'M' pattern to sell (Bearish).
+        </div>
+    </div>
 
-        pEl.innerText = randomPattern;
-        mEl.innerText = randomMood;
-        
-        if(randomMood === "Bullish") {
-            mEl.className = "value bullish";
-            rEl.innerText = "ACCUMULATE";
-            rEl.style.color = "#00ff88";
-        } else if (randomMood === "Bearish") {
-            mEl.className = "value bearish";
-            rEl.innerText = "STAY LIQUID";
-            rEl.style.color = "#ff4444";
-        } else {
-            mEl.className = "value";
-            rEl.innerText = "WAIT FOR BREAKOUT";
-            rEl.style.color = "#888";
+    <main>
+        <nav>
+            <div style="font-weight: 700; letter-spacing: 1px;">CANDLELIT <span style="color: var(--accent-blue);">PRO</span></div>
+            <div class="search-box">
+                <input type="text" id="coin-input" placeholder="Search (e.g. BTCUSDT, ETH...)">
+                <button onclick="ignite()">Ignite Chart</button>
+            </div>
+        </nav>
+
+        <div class="timeframes">
+            <span>QUICK ANALYSIS:</span>
+            <div class="tf-tag">1 DAY</div>
+            <div class="tf-tag">1 WEEK</div>
+            <div class="tf-tag">1 MONTH</div>
+            <div class="tf-tag">1 YEAR</div>
+        </div>
+
+        <div id="chart-container">
+            <div id="tv_widget" style="height: 100%; width: 100%;"></div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+        function loadChart(symbol = "BINANCE:BTCUSDT") {
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": symbol,
+                "interval": "D",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "backgroundColor": "#1E222D", // Grey Background
+                "gridColor": "rgba(42, 46, 57, 0.5)",
+                "container_id": "tv_widget",
+                "overrides": {
+                    "mainSeriesProperties.candleStyle.upColor": "#089981", // Green
+                    "mainSeriesProperties.candleStyle.downColor": "#F23645", // Red
+                    "mainSeriesProperties.candleStyle.borderUpColor": "#089981",
+                    "mainSeriesProperties.candleStyle.borderDownColor": "#F23645",
+                    "mainSeriesProperties.candleStyle.wickUpColor": "#089981",
+                    "mainSeriesProperties.candleStyle.wickDownColor": "#F23645"
+                }
+            });
+            updateAIChat(symbol);
         }
-    }
 
-    // Initial Start
-    initChart(currentSymbol);
-</script>
+        function ignite() {
+            let input = document.getElementById('coin-input').value.toUpperCase().trim();
+            if(!input) return;
+            if(!input.includes(":")) input = "BINANCE:" + (input.endsWith("USDT") ? input : input + "USDT");
+            loadChart(input);
+        }
+
+        function updateAIChat(symbol) {
+            const history = document.getElementById('chat-history');
+            const patterns = ["Double Bottom (W)", "Double Top (M)", "Bull Flag", "Falling Wedge"];
+            const p = patterns[Math.floor(Math.random()*patterns.length)];
+            const isBullish = p.includes("(W)") || p.includes("Bull") || p.includes("Falling");
+
+            let aiResponse = `Analyzing ${symbol.split(":")[1]}... <br><br>`;
+            aiResponse += `🔍 <b>Pattern Found:</b> ${p}<br>`;
+            aiResponse += `🎭 <b>Mood:</b> ${isBullish ? "<span style='color:#089981'>BULLISH (UP)</span>" : "<span style='color:#F23645'>BEARISH (DOWN)</span>"}<br>`;
+            aiResponse += `<br><b>Beginner Tip:</b> `;
+            aiResponse += isBullish ? "Ye pattern kehta hai ki buyers strong hain. Long-term ke liye acha dikh raha hai!" : "Caution! Market mein selling pressure hai, thoda wait karein.";
+
+            const newMsg = document.createElement('div');
+            newMsg.className = "msg bot-msg";
+            newMsg.innerHTML = aiResponse;
+            history.prepend(newMsg); // Sabse naya message upar dikhega
+        }
+
+        // Initial Load
+        loadChart();
+    </script>
 </body>
 </html>
