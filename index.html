@@ -1,112 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDLELIT AI | PRO TERMINAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --bg-grey: #1E222D; --sidebar-dark: #131722; --accent: #2962FF; --bull: #089981; --bear: #F23645; --text: #D1D4DC; --border: #363A45; }
-        body { background: var(--bg-grey); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar Styles */
-        #sidebar { width: 320px; background: var(--sidebar-dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-        .ai-box { padding: 20px; border-bottom: 1px solid var(--border); }
-        .ai-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); font-size: 0.8rem; margin-bottom: 15px; }
-        .ai-msg { background: #2A2E39; padding: 15px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; border-left: 4px solid var(--accent); min-height: 80px; }
-        
-        .news-section { flex: 1; padding: 20px; overflow-y: auto; border-top: 1px solid var(--border); }
-        .news-item { font-size: 0.75rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2A2E39; cursor: pointer; }
-        .news-item:hover { color: var(--accent); }
-        .news-tag { color: var(--accent); font-weight: bold; font-size: 0.65rem; text-transform: uppercase; }
+  <meta charset="UTF-8">
+  <title>Candlelit AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Main Area */
-        main { flex: 1; display: flex; flex-direction: column; }
-        header { padding: 10px 20px; background: var(--sidebar-dark); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        input { background: #2A2E39; border: 1px solid #434651; color: white; padding: 8px 12px; border-radius: 6px; outline: none; width: 180px; }
-        .premium-btn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 700; cursor: pointer; margin: 20px; }
-    </style>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .bullish { color: #00ff9c; }
+    .bearish { color: #ff4d4d; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .coin {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .coin:hover {
+      transform: scale(1.05);
+    }
+
+    .news-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
+
+    .green { background: #003d2e; }
+    .red { background: #3d0000; }
+
+    button {
+      padding: 10px 20px;
+      background: orange;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
+<div class="container">
 
-    <div id="sidebar">
-        <div class="ai-box">
-            <div class="ai-title">🤖 CANDLELIT AI ANALYST</div>
-            <div class="ai-msg" id="ai-status">Scanning market for patterns...</div>
-        </div>
+  <!-- HERO -->
+  <div class="card">
+    <h1>🔥 BTC: <span class="bullish">BULLISH (78%)</span></h1>
+    <p>+2.4% price | Volume rising | Positive sentiment</p>
+    <button>View Full Market →</button>
+  </div>
 
-        <div class="news-section">
-            <div style="font-size: 0.7rem; color: #848E9C; margin-bottom: 15px; letter-spacing: 1px;">LIVE CRYPTO NEWS</div>
-            <div id="news-feed">
-                </div>
-        </div>
+  <!-- MARKET MOOD -->
+  <div class="card">
+    <h2>🌍 Market Mood: <span class="bullish">Bullish</span></h2>
+    <p>Top Gainers: ETH +4.2%, SOL +6.1%</p>
+    <p>Top Losers: XRP -2.3%</p>
+  </div>
 
-        <button class="premium-btn" onclick="alert('Waitlist Joined!')">🚀 UPGRADE TO PRO</button>
+  <!-- COINS -->
+  <div class="card">
+    <h2>💰 Top Coins</h2>
+    <div class="grid" id="coins"></div>
+  </div>
+
+  <!-- NEWS -->
+  <div class="card">
+    <h2>📰 Latest News</h2>
+    <div id="news"></div>
+  </div>
+
+</div>
+
+<script>
+const coins = [
+  { name: "BTC", price: "₹58,00,000", change: 2.4 },
+  { name: "ETH", price: "₹3,20,000", change: -1.2 },
+  { name: "SOL", price: "₹12,000", change: 5.1 }
+];
+
+const news = [
+  { title: "Bitcoin gains momentum", sentiment: "positive" },
+  { title: "Altcoins under pressure", sentiment: "negative" }
+];
+
+const coinContainer = document.getElementById("coins");
+
+coins.forEach(c => {
+  const trend = c.change > 0 ? "bullish" : "bearish";
+
+  coinContainer.innerHTML += `
+    <div class="coin">
+      <h3>${c.name}</h3>
+      <p>${c.price}</p>
+      <p class="${trend}">${trend.toUpperCase()}</p>
     </div>
+  `;
+});
 
-    <main>
-        <header>
-            <div style="font-weight: 800;">CANDLELIT <span style="color:var(--accent)">PRO</span></div>
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="symbol-input" placeholder="Search (e.g. SOL, DOT)">
-                <button onclick="manualSearch()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">Ignite</button>
-            </div>
-        </header>
-        <div id="tv_widget" style="flex:1;"></div>
-    </main>
+const newsContainer = document.getElementById("news");
 
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script>
-        let currentSymbol = "BINANCE:BTCUSDT";
+news.forEach(n => {
+  const cls = n.sentiment === "positive" ? "green" : "red";
 
-        function loadChart(symbol) {
-            new TradingView.widget({
-                "autosize": true, "symbol": symbol, "interval": "D", "theme": "dark",
-                "style": "1", "container_id": "tv_widget", "backgroundColor": "#1E222D",
-            });
-            updateAI(symbol);
-        }
+  newsContainer.innerHTML += `
+    <div class="news-item">
+      ${n.title}
+      <span class="tag ${cls}">
+        ${n.sentiment}
+      </span>
+    </div>
+  `;
+});
+</script>
 
-        function manualSearch() {
-            let val = document.getElementById('symbol-input').value.toUpperCase().trim();
-            if(!val) return;
-            currentSymbol = "BINANCE:" + (val.endsWith("USDT") ? val : val + "USDT");
-            loadChart(currentSymbol);
-        }
-
-        function updateAI(sym) {
-            const coin = sym.split(":")[1] || sym;
-            const patterns = [
-                { n: "Double Bottom (W)", s: "BULLISH", c: "var(--bull)", d: "Trend reversal confirmed." },
-                { n: "Double Top (M)", s: "BEARISH", c: "var(--bear)", d: "Major resistance detected." },
-                { n: "Falling Wedge", s: "BULLISH", c: "var(--bull)", d: "Breakout expected soon." },
-                { n: "Head and Shoulders", s: "BEARISH", c: "var(--bear)", d: "Bearish structure forming." },
-                { n: "Bullish Flag", s: "BULLISH", c: "var(--bull)", d: "Continuation of up-move." },
-                { n: "Ascending Triangle", s: "BULLISH", c: "var(--bull)", d: "Accumulation zone detected." },
-                { n: "Descending Triangle", s: "BEARISH", c: "var(--bear)", d: "Distribution phase active." },
-                { n: "Cup and Handle", s: "BULLISH", c: "var(--bull)", d: "Long term bullish setup." }
-            ];
-            const p = patterns[Math.floor(Math.random() * patterns.length)];
-            document.getElementById('ai-status').innerHTML = `<b>${coin} Analysis:</b><br><br>AI detected <b>${p.n}</b>. <br><span style='color:${p.c}'>${p.s} SIGNAL:</span> ${p.d}`;
-        }
-
-        function loadNews() {
-            const news = [
-                { t: "MARKET", m: "Bitcoin holds steady at $72,400 as ETF inflows increase." },
-                { t: "WHALE ALERT", m: "10,000 BTC moved from unknown wallet to Coinbase." },
-                { t: "REGULATION", m: "New crypto tax laws proposed in the European Union." },
-                { t: "ALTCOINS", m: "Solana (SOL) hits new monthly high amid ecosystem growth." }
-            ];
-            let html = '';
-            news.forEach(n => {
-                html += `<div class="news-item"><span class="news-tag">${n.t}</span><br>${n.m}</div>`;
-            });
-            document.getElementById('news-feed').innerHTML = html;
-        }
-
-        // Initial Load
-        loadChart(currentSymbol);
-        loadNews();
-    </script>
 </body>
 </html>
