@@ -3,108 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDLELIT AI | PRODUCT DESIGN PRO 🇮🇳</title>
+    <title>CANDLELIT AI | PRO TERMINAL</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-grey: #0F1115; --sidebar-dark: #16191E; --accent: #2962FF; --bull: #089981; --bear: #F23645; --text: #D1D4DC; --border: #2A2E39; }
+        :root { 
+            --bg-grey: #1E222D; 
+            --sidebar-dark: #131722; 
+            --accent: #2962FF; 
+            --bull: #089981; 
+            --bear: #F23645; 
+            --text: #D1D4DC; 
+            --border: #363A45; 
+            --glass: rgba(255, 255, 255, 0.05);
+        }
         body { background: var(--bg-grey); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        /* Sidebar - The "Product" View */
+        /* Sidebar */
         #sidebar { width: 340px; background: var(--sidebar-dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-        .module { padding: 20px; border-bottom: 1px solid var(--border); }
-        .label { font-size: 0.65rem; color: #848E9C; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+        .sidebar-header { padding: 20px; font-size: 0.7rem; color: #848E9C; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
         
-        .ai-card { background: linear-gradient(145deg, #1E222D, #16191E); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
-        .status-dot { height: 8px; width: 8px; background: #00FF88; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 10px #00FF88; }
+        .ai-card { margin: 0 15px 20px 15px; background: var(--glass); border-radius: 12px; padding: 15px; border-left: 4px solid var(--accent); }
+        .ai-title { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); font-size: 0.75rem; margin-bottom: 10px; }
+        .ai-msg { font-size: 0.85rem; line-height: 1.6; }
         
-        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .metric-item { background: #1E222D; padding: 10px; border-radius: 8px; text-align: center; }
-        .metric-val { display: block; font-size: 1.1rem; font-weight: 700; color: white; }
-        .metric-lab { font-size: 0.6rem; color: #848E9C; }
+        /* Sentiment Meter - CEO Addition */
+        .sentiment-container { padding: 0 20px 20px 20px; border-bottom: 1px solid var(--border); }
+        .meter-bg { background: #2A2E39; height: 8px; border-radius: 10px; margin-top: 10px; overflow: hidden; position: relative; }
+        #meter-fill { background: linear-gradient(90deg, var(--bear), #FFD700, var(--bull)); width: 50%; height: 100%; transition: 1s ease-in-out; }
 
-        /* Main Workspace */
+        .news-section { flex: 1; padding: 20px; overflow-y: auto; }
+        .news-item { font-size: 0.8rem; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #2A2E39; transition: 0.2s; cursor: pointer; }
+        .news-item:hover { color: var(--accent); transform: translateX(5px); }
+        .news-tag { color: var(--accent); font-weight: bold; font-size: 0.65rem; border: 1px solid var(--accent); padding: 2px 6px; border-radius: 4px; margin-right: 8px; }
+
+        /* Main Area */
         main { flex: 1; display: flex; flex-direction: column; }
         header { padding: 15px 25px; background: var(--sidebar-dark); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .search-bar { display: flex; background: #1E222D; padding: 5px; border-radius: 8px; border: 1px solid var(--border); }
-        input { background: transparent; border: none; color: white; padding: 8px 12px; outline: none; width: 220px; font-family: inherit; }
-        .ignite-btn { background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+        .search-group { display: flex; background: #2A2E39; border: 1px solid var(--border); border-radius: 8px; padding: 4px; }
+        input { background: transparent; border: none; color: white; padding: 8px 12px; outline: none; width: 200px; font-size: 0.9rem; }
+        .ignite-btn { background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
         
-        iframe { width: 100%; height: 100%; border: none; flex: 1; }
+        .premium-btn { background: linear-gradient(45deg, var(--accent), #1E88E5); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; margin: 20px; box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3); }
     </style>
 </head>
 <body>
 
     <div id="sidebar">
-        <div class="module">
-            <span class="label">User Experience Engine</span>
-            <div class="ai-card">
-                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">
-                    <span class="status-dot"></span> AI Prediction Model
-                </div>
-                <div id="ai-output" style="font-size: 0.8rem; color: #B2B5BE; line-height: 1.4;">
-                    Waiting for asset selection to generate strategy...
-                </div>
+        <div class="sidebar-header">AI Analyst Core</div>
+        <div class="ai-card">
+            <div class="ai-title">⚡ CANDLELIT INSIGHT</div>
+            <div class="ai-msg" id="ai-status">Initializing market scan...</div>
+        </div>
+
+        <div class="sentiment-container">
+            <div style="font-size: 0.7rem; color: #848E9C;">MARKET SENTIMENT</div>
+            <div class="meter-bg"><div id="meter-fill"></div></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.65rem; margin-top: 5px;">
+                <span>Fear</span><span>Neutral</span><span>Greed</span>
             </div>
         </div>
 
-        <div class="module">
-            <span class="label">Growth Metrics (Live)</span>
-            <div class="metric-grid">
-                <div class="metric-item">
-                    <span class="metric-val">94.2%</span>
-                    <span class="metric-lab">Signal Accuracy</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-val">2.4s</span>
-                    <span class="metric-lab">Latency</span>
-                </div>
-            </div>
+        <div class="news-section">
+            <div style="font-size: 0.7rem; color: #848E9C; margin-bottom: 15px; letter-spacing: 1px;">SITUATIONAL AWARENESS</div>
+            <div id="news-feed"></div>
         </div>
 
-        <div class="module" style="border:none;">
-            <span class="label">Experience Strategy</span>
-            <div id="strategy-feed" style="font-size: 0.75rem;">
-                <div style="margin-bottom:12px; color:var(--accent)"># RetentionHack: Multi-timeframe confluence active.</div>
-                <div style="color:#848E9C">Focusing on "Invisible AI" design to reduce trader fatigue.</div>
-            </div>
-        </div>
+        <button class="premium-btn" onclick="alert('Early Access Waitlist Joined!')">UPGRADE TO TERMINAL PRO</button>
     </div>
 
     <main>
         <header>
-            <div style="font-weight: 800; letter-spacing: 0.5px;">CANDLELIT <span style="color:var(--accent)">PM EDITION</span></div>
-            <div class="search-bar">
-                <input type="text" id="symbol-input" placeholder="Search NSE Asset (e.g. RELIANCE)">
-                <button class="ignite-btn" onclick="manualSearch()">IGNITE AI</button>
+            <div style="font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;">CANDLELIT <span style="color:var(--accent)">PRO</span></div>
+            <div class="search-group">
+                <input type="text" id="symbol-input" placeholder="Search Ticker (e.g. BTC, ETH)">
+                <button class="ignite-btn" onclick="manualSearch()">Ignite</button>
             </div>
         </header>
-
-        <iframe id="main-chart" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ASBIN&interval=D&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in"></iframe>
+        <div id="tv_widget" style="flex:1;"></div>
     </main>
 
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
+        let currentSymbol = "BINANCE:BTCUSDT";
+
+        function loadChart(symbol) {
+            new TradingView.widget({
+                "autosize": true, "symbol": symbol, "interval": "D", "theme": "dark",
+                "style": "1", "container_id": "tv_widget", "backgroundColor": "#1E222D",
+                "hide_side_toolbar": false, "allow_symbol_change": true,
+                "save_image": false, "details": true,
+            });
+            updateAI(symbol);
+        }
+
         function manualSearch() {
             let val = document.getElementById('symbol-input').value.toUpperCase().trim();
             if(!val) return;
-            
-            let ticker = (val === "NIFTY") ? "NSE%3ANIFTY" : "NSE%3A" + val;
-            document.getElementById('main-chart').src = `https://s.tradingview.com/widgetembed/?symbol=${ticker}&interval=D&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in`;
-            
-            updatePMInsights(val);
+            currentSymbol = "BINANCE:" + (val.endsWith("USDT") ? val : val + "USDT");
+            loadChart(currentSymbol);
         }
 
-        function updatePMInsights(name) {
-            const aiOutput = document.getElementById('ai-output');
-            aiOutput.innerHTML = `<span style="color:#848E9C">Analyzing ${name} volume clusters...</span>`;
+        function updateAI(sym) {
+            const coin = sym.split(":")[1] || sym;
+            const sentimentScore = Math.floor(Math.random() * 100);
+            document.getElementById('meter-fill').style.width = sentimentScore + "%";
+
+            const insights = [
+                "Whale accumulation detected at support levels. High probability of bounce.",
+                "RSI indicates overbought conditions. Suggesting caution on new long positions.",
+                "Consolidation phase near 200-day EMA. Volatility breakout imminent.",
+                "Institutional buy-side pressure building in the order books."
+            ];
             
-            setTimeout(() => {
-                aiOutput.innerHTML = `
-                    <b style="color:white">Pattern: High-Conviction Breakout</b><br>
-                    Strategy: Use 21-EMA as trailing support for 12% upside target.<br>
-                    <span style="color:var(--bull); font-weight:bold; display:block; margin-top:5px;">Action: OVERWEIGHT</span>
-                `;
-            }, 1000);
+            const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+            document.getElementById('ai-status').innerHTML = `<b>${coin}</b>: ${randomInsight}`;
         }
+
+        function loadNews() {
+            const news = [
+                { t: "Macro", m: "Fed maintains interest rates; market reacts with high volatility." },
+                { t: "Whale", m: "2,500 ETH transferred from cold storage to exchange." },
+                { t: "Social", m: "Crypto Twitter sentiment hitting 'Extreme Greed' levels." },
+                { t: "On-Chain", m: "Stablecoin inflows hit 3-month high on Binance." }
+            ];
+            let html = '';
+            news.forEach(n => {
+                html += `<div class="news-item"><span class="news-tag">${n.t}</span>${n.m}</div>`;
+            });
+            document.getElementById('news-feed').innerHTML = html;
+        }
+
+        loadChart(currentSymbol);
+        loadNews();
     </script>
 </body>
 </html>
