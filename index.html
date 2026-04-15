@@ -1,153 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Candlelit AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CANDLELIT AI | PRODUCT DESIGN PRO 🇮🇳</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-grey: #0F1115; --sidebar-dark: #16191E; --accent: #2962FF; --bull: #089981; --bear: #F23645; --text: #D1D4DC; --border: #2A2E39; }
+        body { background: var(--bg-grey); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar - The "Product" View */
+        #sidebar { width: 340px; background: var(--sidebar-dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+        .module { padding: 20px; border-bottom: 1px solid var(--border); }
+        .label { font-size: 0.65rem; color: #848E9C; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: block; }
+        
+        .ai-card { background: linear-gradient(145deg, #1E222D, #16191E); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
+        .status-dot { height: 8px; width: 8px; background: #00FF88; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 10px #00FF88; }
+        
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .metric-item { background: #1E222D; padding: 10px; border-radius: 8px; text-align: center; }
+        .metric-val { display: block; font-size: 1.1rem; font-weight: 700; color: white; }
+        .metric-lab { font-size: 0.6rem; color: #848E9C; }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    h1, h2 {
-      margin-bottom: 10px;
-    }
-
-    .card {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .bullish { color: #00ff9c; }
-    .bearish { color: #ff4d4d; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .coin {
-      background: #222;
-      padding: 15px;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-
-    .coin:hover {
-      transform: scale(1.05);
-    }
-
-    .news-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #333;
-    }
-
-    .tag {
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-left: 10px;
-    }
-
-    .green { background: #003d2e; }
-    .red { background: #3d0000; }
-
-    button {
-      padding: 10px 20px;
-      background: orange;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-  </style>
+        /* Main Workspace */
+        main { flex: 1; display: flex; flex-direction: column; }
+        header { padding: 15px 25px; background: var(--sidebar-dark); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .search-bar { display: flex; background: #1E222D; padding: 5px; border-radius: 8px; border: 1px solid var(--border); }
+        input { background: transparent; border: none; color: white; padding: 8px 12px; outline: none; width: 220px; font-family: inherit; }
+        .ignite-btn { background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 700; }
+        
+        iframe { width: 100%; height: 100%; border: none; flex: 1; }
+    </style>
 </head>
-
 <body>
-<div class="container">
 
-  <!-- HERO -->
-  <div class="card">
-    <h1>🔥 BTC: <span class="bullish">BULLISH (78%)</span></h1>
-    <p>+2.4% price | Volume rising | Positive sentiment</p>
-    <button>View Full Market →</button>
-  </div>
+    <div id="sidebar">
+        <div class="module">
+            <span class="label">User Experience Engine</span>
+            <div class="ai-card">
+                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">
+                    <span class="status-dot"></span> AI Prediction Model
+                </div>
+                <div id="ai-output" style="font-size: 0.8rem; color: #B2B5BE; line-height: 1.4;">
+                    Waiting for asset selection to generate strategy...
+                </div>
+            </div>
+        </div>
 
-  <!-- MARKET MOOD -->
-  <div class="card">
-    <h2>🌍 Market Mood: <span class="bullish">Bullish</span></h2>
-    <p>Top Gainers: ETH +4.2%, SOL +6.1%</p>
-    <p>Top Losers: XRP -2.3%</p>
-  </div>
+        <div class="module">
+            <span class="label">Growth Metrics (Live)</span>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <span class="metric-val">94.2%</span>
+                    <span class="metric-lab">Signal Accuracy</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-val">2.4s</span>
+                    <span class="metric-lab">Latency</span>
+                </div>
+            </div>
+        </div>
 
-  <!-- COINS -->
-  <div class="card">
-    <h2>💰 Top Coins</h2>
-    <div class="grid" id="coins"></div>
-  </div>
-
-  <!-- NEWS -->
-  <div class="card">
-    <h2>📰 Latest News</h2>
-    <div id="news"></div>
-  </div>
-
-</div>
-
-<script>
-const coins = [
-  { name: "BTC", price: "₹58,00,000", change: 2.4 },
-  { name: "ETH", price: "₹3,20,000", change: -1.2 },
-  { name: "SOL", price: "₹12,000", change: 5.1 }
-];
-
-const news = [
-  { title: "Bitcoin gains momentum", sentiment: "positive" },
-  { title: "Altcoins under pressure", sentiment: "negative" }
-];
-
-const coinContainer = document.getElementById("coins");
-
-coins.forEach(c => {
-  const trend = c.change > 0 ? "bullish" : "bearish";
-
-  coinContainer.innerHTML += `
-    <div class="coin">
-      <h3>${c.name}</h3>
-      <p>${c.price}</p>
-      <p class="${trend}">${trend.toUpperCase()}</p>
+        <div class="module" style="border:none;">
+            <span class="label">Experience Strategy</span>
+            <div id="strategy-feed" style="font-size: 0.75rem;">
+                <div style="margin-bottom:12px; color:var(--accent)"># RetentionHack: Multi-timeframe confluence active.</div>
+                <div style="color:#848E9C">Focusing on "Invisible AI" design to reduce trader fatigue.</div>
+            </div>
+        </div>
     </div>
-  `;
-});
 
-const newsContainer = document.getElementById("news");
+    <main>
+        <header>
+            <div style="font-weight: 800; letter-spacing: 0.5px;">CANDLELIT <span style="color:var(--accent)">PM EDITION</span></div>
+            <div class="search-bar">
+                <input type="text" id="symbol-input" placeholder="Search NSE Asset (e.g. RELIANCE)">
+                <button class="ignite-btn" onclick="manualSearch()">IGNITE AI</button>
+            </div>
+        </header>
 
-news.forEach(n => {
-  const cls = n.sentiment === "positive" ? "green" : "red";
+        <iframe id="main-chart" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ASBIN&interval=D&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in"></iframe>
+    </main>
 
-  newsContainer.innerHTML += `
-    <div class="news-item">
-      ${n.title}
-      <span class="tag ${cls}">
-        ${n.sentiment}
-      </span>
-    </div>
-  `;
-});
-</script>
+    <script>
+        function manualSearch() {
+            let val = document.getElementById('symbol-input').value.toUpperCase().trim();
+            if(!val) return;
+            
+            let ticker = (val === "NIFTY") ? "NSE%3ANIFTY" : "NSE%3A" + val;
+            document.getElementById('main-chart').src = `https://s.tradingview.com/widgetembed/?symbol=${ticker}&interval=D&theme=dark&style=1&timezone=Asia%2FKolkata&locale=in`;
+            
+            updatePMInsights(val);
+        }
 
+        function updatePMInsights(name) {
+            const aiOutput = document.getElementById('ai-output');
+            aiOutput.innerHTML = `<span style="color:#848E9C">Analyzing ${name} volume clusters...</span>`;
+            
+            setTimeout(() => {
+                aiOutput.innerHTML = `
+                    <b style="color:white">Pattern: High-Conviction Breakout</b><br>
+                    Strategy: Use 21-EMA as trailing support for 12% upside target.<br>
+                    <span style="color:var(--bull); font-weight:bold; display:block; margin-top:5px;">Action: OVERWEIGHT</span>
+                `;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
